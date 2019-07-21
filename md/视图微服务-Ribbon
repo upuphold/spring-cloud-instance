@@ -1,0 +1,76 @@
+#####在pom中添加依赖
+```xml
+        <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        </dependencies>
+```
+#####Ribbon 客户端， 通过 restTemplate 访问 http://DATA-SERVICE/products ， 而 product-data-service 既不是域名也不是ip地址，而是 数据服务在 eureka 注册中心的名称。
+```java
+@Component
+public class ProductClientRibbon {
+ 
+    @Autowired
+    RestTemplate restTemplate;
+ 
+    public List<Product> listProdcuts() {
+        return restTemplate.getForObject("http://DATA-SERVICE/products",List.class);
+    }
+ 
+}
+```
+#####添加注解,restTemplate 这个工具来做负载均衡
+```java
+@SpringBootApplication
+@EnableEurekaClient
+@EnableDiscoveryClient
+public class ViewServiceRibbonApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ViewServiceRibbonApplication.class, args);
+	}
+
+	@Bean
+	@LoadBalanced
+	RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
+
+}
+```
+#####配置yml
+```yml
+spring:
+  application:
+    name: view-service-ribbon
+    thymeleaf:
+      cache: false
+      prefix: classpath:/templates/
+      suffix: .html
+      encoding: UTF-8
+      content-type: text/html
+      mode: HTML5
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9000/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+server:
+  port: 9010
+
+```

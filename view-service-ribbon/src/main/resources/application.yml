@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: view-service-ribbon
+    thymeleaf:
+      cache: false
+      prefix: classpath:/templates/
+      suffix: .html
+      encoding: UTF-8
+      content-type: text/html
+      mode: HTML5
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9000/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+server:
+  port: 9010
