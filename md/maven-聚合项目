@@ -1,0 +1,56 @@
+#####使用maven创建父项目
+1. new project
+#####修改父项目的pom文件
+```xml
+        <packaging>pom</packaging>
+        <modules>
+          <module>子项目名称</module>
+        </modules>
+```
+#####增加 hutool jar 和 junit 包的依赖，用于后来子项目里观察对其的调用
+```xml
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>4.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+```
+#####创建子项目
+1. new module
+#####修改子项目的pom文件
+```xml
+    <parent>
+        <artifactId>父项目名称</artifactId>
+        <groupId>父项目包路径</groupId>
+        <version>父项目版本号</version>
+    </parent>
+```
+#####注意事项
+1.关联子项目之前，父项目需要先mvn install一下，不然后面子项目找不到父项目包报错
+2.在父pom中配置<dependencyManagement>实现子项目获取到父依赖版本，提供管理功能，不提供下载功能，如果父pom添加新的依赖，那么要先放开，在加上标签
+```xml
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Finchley.SR2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.4</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+```
