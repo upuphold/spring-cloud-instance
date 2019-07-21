@@ -1,0 +1,16 @@
+#   server:
+#   port: 因为会启动多个 product-data-service, 所以端口号由用户自动设置，推荐 9001,9002,9003
+
+server:
+  port: 9001
+
+spring:
+  application:
+    name: data-service
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9000/eureka/
+    register-with-eureka: true
+    fetch-registry: true
