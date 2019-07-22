@@ -1,0 +1,77 @@
+#####在pom文件中添加依赖项
+```xml
+        <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        </dependencies>
+```
+#####Feign 客户端， 通过 注解方式 访问 访问PRODUCT-DATA-SERVICE服务的 products路径， product-data-service 既不是域名也不是ip地址，而是 数据服务在 eureka 注册中心的名称。
+```java
+@FeignClient(value = "DATA-SERVICE")
+public interface ProductClientFeign {
+
+	/**
+	 * @return
+	 */
+	@GetMapping("/products")
+	public List<Product> products();
+
+}
+```
+#####启动类， 注解多了个 @EnableFeignClients， 表示用于使用 Feign 方式
+```java
+@SpringBootApplication
+@EnableEurekaClient
+@EnableDiscoveryClient
+@EnableFeignClients
+public class ViewServiceFeignApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ViewServiceFeignApplication.class, args);
+	}
+
+}
+```
+#####修改yml配置文件
+```yaml
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9000/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+
+spring:
+  application:
+    name: view-service-feign
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+    mode: HTML5
+    servlet:
+      content-type: text/html
+
+
+server:
+  port: 9011
+```
+
