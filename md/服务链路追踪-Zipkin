@@ -1,0 +1,37 @@
+#####zipkin-server官方jar包下载--https://dl.bintray.com/openzipkin/maven/io/zipkin/java/zipkin-server/
+#####在需要进行链路跟踪的微服务pom文件中添加依赖
+```xml
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
+```
+#####在需要进行链路跟踪的微服务yml文件中添加配置
+```yaml
+spring:
+  application:
+    name: data-service
+  zipkin:
+    base-url: http://localhost:9411
+```
+#####在启动类里配置 Sampler 抽样策略： ALWAYS_SAMPLE 表示持续抽样
+```java
+@SpringBootApplication
+@EnableEurekaClient
+public class DataServiceApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(DataServiceApplication.class, args);
+	}
+
+	@Bean
+	public Sampler defaultSampler(){
+		return Sampler.ALWAYS_SAMPLE;
+	}
+
+}
+```
+#####启动步骤
+1. 执行java -jar zipkin-server-2.10.1-exec.jar
+2. 获取的server端口配置到微服务的yml文件里zipkin:base-url: http://localhost:9411
+3. 逐步启动微服务
