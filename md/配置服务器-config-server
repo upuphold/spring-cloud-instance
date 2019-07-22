@@ -1,0 +1,54 @@
+#####配置远程配置信息存储库-此处使用git+github模拟
+1. 仓库地址：https://github.com/upuphold/config(备注：仓库https地址，去掉.git后缀)
+#####创建config-server微服务模块，添加pom依赖
+```xml
+        <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-server</artifactId>
+        </dependency>
+        </dependencies>
+```
+#####在启动类中添加注解
+```java
+@SpringBootApplication
+@EnableConfigServer
+@EnableEurekaClient
+@EnableDiscoveryClient
+public class ConfigServerApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ConfigServerApplication.class, args);
+	}
+
+}
+```
+#####在application.yml文件里添加配置信息
+```yaml
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      label: master
+      server:
+        git:
+          uri: https://github.com/upuphold/config
+          search-paths: respo
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9000/eureka/
+server:
+  port: 9012
+```
