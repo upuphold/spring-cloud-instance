@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author cg
  */
-@FeignClient(value = "DATA-SERVICE")
+@FeignClient(value = "DATA-SERVICE",fallback = ProductClientFeignHystrix.class)
 public interface ProductClientFeign {
 
 	/**

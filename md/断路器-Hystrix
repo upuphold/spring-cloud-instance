@@ -1,0 +1,38 @@
+#####在pom文件里添加依赖
+```xml
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+        </dependency>
+```
+#####新建FeignHystrix类继承Feign接口，重载方法,同时添加组件扫描器
+```java
+@Component
+public class ProductClientFeignHystrix implements ProductClientFeign{
+	@Override
+	public List<Product> products() {
+		List<Product> products=new ArrayList<>();
+		products.add(new Product(0,"商品数据服务不可用",0));
+		return products;
+	}
+}
+```
+#####在feign接口上添加断路器注解
+```java
+@FeignClient(value = "DATA-SERVICE",fallback = ProductClientFeignHystrix.class)
+public interface ProductClientFeign {
+
+	/**
+	 * @return
+	 */
+	@GetMapping("/products")
+	public List<Product> products();
+
+}
+```
+#####在application.yml文件里开启断路器
+```yaml
+feign:
+  hystrix:
+    enabled: true
+```
