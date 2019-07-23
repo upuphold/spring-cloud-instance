@@ -19,6 +19,14 @@ spring:
     servlet:
       content-type: text/html
 
-
 server:
   port: 9011
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      cors:
+        allowed-origins: "*"
+        allowed-methods: "*"
