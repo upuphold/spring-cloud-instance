@@ -8,6 +8,10 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
+
+/*EnableDiscoveryClient用于发现注册中心*/
+/*RestTemplate用来做负载均衡*/
+
 @SpringBootApplication
 @EnableEurekaClient
 @EnableDiscoveryClient
