@@ -1,12 +1,5 @@
 server:
-  port: 9011
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:9000/eureka/
-    fetch-registry: true
-    register-with-eureka: true
+  port: 8012
 
 spring:
   application:
@@ -21,6 +14,11 @@ spring:
     mode: HTML5
     servlet:
       content-type: text/html
+
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka/
 
 feign:
   hystrix:

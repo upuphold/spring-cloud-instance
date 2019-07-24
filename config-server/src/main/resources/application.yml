@@ -1,6 +1,10 @@
+server:
+  port: 8030
+
 spring:
   application:
     name: config-server
+#    config配置
   cloud:
     config:
       label: master
@@ -8,9 +12,8 @@ spring:
         git:
           uri: https://github.com/upuphold/config
           search-paths: respo
+
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:9000/eureka/
-server:
-  port: 9012
+      defaultZone: http://localhost:8761/eureka/

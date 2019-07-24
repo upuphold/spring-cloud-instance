@@ -6,6 +6,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.config.server.EnableConfigServer;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
+
+/*EnableConfigServer配置服务器注解*/
+/*EnableEurekaClient标识客户端*/
+/*EnableDiscoveryClient发现服务中心*/
 @SpringBootApplication
 @EnableConfigServer
 @EnableEurekaClient

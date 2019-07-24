@@ -22,11 +22,15 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
+	@Value("${version}")
+	String version;
+
 
 	@RequestMapping("/products")
 	public Object products(Model model) {
 		List<Product> products = productService.products();
 		model.addAttribute("ps", products);
+		model.addAttribute("version", version);
 		return model;
 	}
 }
