@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: turbine
+server:
+  port: 9021
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9000/eureka/
+
+turbine:
+  aggregator:
+    cluster-config: default
+  app-config: VIEW-SERVICE-FEIGN
+  cluster-name-expression: new String("default")
