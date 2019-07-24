@@ -1,11 +1,24 @@
 spring:
   cloud:
+# 配置连接配置服务器
     config:
       label: master
       profile: dev
       discovery:
         enabled: true
         serviceId: CONFIG-SERVER
+# 消息总线配置
+    bus:
+      enabled: true
+      trace:
+        enabled: true
+# eureka连接配置
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+# rabbitMQ连接配置
+rabbitmq:
+  host: localhost
+  port: 15672
+  username: guest
+  password: guest

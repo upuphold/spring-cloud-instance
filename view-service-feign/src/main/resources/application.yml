@@ -23,3 +23,14 @@ spring:
 feign:
   hystrix:
     enabled: true
+
+# 路径访问允许/actuator/bus-refresh
+management:
+  endpoint:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
+      cors:
+        allowed-origins: "*"
+        allowed-methods: "*"
